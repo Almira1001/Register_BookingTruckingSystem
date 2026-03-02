@@ -141,6 +141,34 @@
 
   .input-wrap input::placeholder { color: #c1ccdd; }
 
+  .input-wrap select {
+    width: 100%;
+    background: #f4f7fc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 38px 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.83rem;
+    color: #0f1f3d;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .input-wrap select:focus {
+    border-color: #2563eb;
+    background-color: #eff5ff;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+
+  .input-wrap select.ok { border-color: #22c55e; background-color: #f0fdf4; }
+
+  .input-wrap select option { color: #0f1f3d; background: white; }
+
   .input-wrap input:focus {
     border-color: #2563eb;
     background: #eff5ff;
@@ -443,7 +471,7 @@
     </div>
 
     <div class="field">
-      <label>Nama Depan</label>
+      <label>Nama</label>
       <div class="input-wrap">
         <input type="text" id="nama" placeholder="cth. Budi Santoso" oninput="validate()">
         <span class="check-icon" id="ic-nama">✓</span>
@@ -459,9 +487,31 @@
     </div>
 
     <div class="field">
+      <label>Nomor HP / WhatsApp</label>
+      <div class="input-wrap">
+        <input type="tel" id="hp" placeholder="cth. +62 812 xxxx xxxx" oninput="validate()">
+        <span class="check-icon" id="ic-hp">✓</span>
+      </div>
+    </div>
+
+    <div class="field">
       <label>Nama Perusahaan</label>
       <div class="input-wrap">
-        <input type="text" id="perusahaan" placeholder="cth. PT. Maju Jaya Logistik" oninput="validate()">
+        <select id="perusahaan" onchange="validate()">
+          <option value="" disabled selected>-- Pilih Perusahaan --</option>
+          <option>PT Cakraindo Mitra International</option>
+          <option>PT Argo Trans Mandiri</option>
+          <option>PT Puninar Logistics</option>
+          <option>PT Elang Transportasi Indonesia</option>
+          <option>PT Bimaruna Jaya</option>
+          <option>PT BSA Logistics Indonesia</option>
+          <option>PT Tangguh Karimata Jaya</option>
+          <option>PT Inti Persada Mandiri</option>
+          <option>PT Glory Bahana Universal</option>
+          <option>PT Putra Sejahtera Sentosa</option>
+          <option>PT Trisindo</option>
+          <option>PT Lintas Marindo Nusantara</option>
+        </select>
         <span class="check-icon" id="ic-perusahaan">✓</span>
       </div>
     </div>
@@ -513,13 +563,14 @@
 </div>
 
 <script>
-  const textFields = ['nama','email','perusahaan','domisili'];
+  const textFields = ['nama','email','hp','perusahaan','domisili'];
 
   function setFieldState(id, ok) {
     const input = document.getElementById(id);
     const icon  = document.getElementById('ic-' + id);
     if (!input) return;
-    if (input.value.trim() === '') {
+    const isEmpty = input.tagName === 'SELECT' ? input.value === '' : input.value.trim() === '';
+    if (isEmpty) {
       input.className = '';
       if (icon) { icon.style.display = 'none'; }
     } else if (ok) {
@@ -533,7 +584,7 @@
 
   function validate() {
     textFields.forEach(id => {
-      const val = document.getElementById(id).value.trim();
+      const el2 = document.getElementById(id); const val = el2.tagName === 'SELECT' ? el2.value : el2.value.trim();
       if (id === 'email') {
         setFieldState(id, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
       } else {
@@ -568,7 +619,7 @@
 
   function allTextOk() {
     return textFields.every(id => {
-      const val = document.getElementById(id).value.trim();
+      const el2 = document.getElementById(id); const val = el2.tagName === 'SELECT' ? el2.value : el2.value.trim();
       if (id === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
       return val.length > 0;
     });
