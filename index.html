@@ -464,70 +464,53 @@
 </div>
 
 <!-- ============================================================
-  FIREBASE SDK — Versi 9 (modular, pakai CDN compat build)
+  FIREBASE SDK — Firestore Only (tanpa Authentication)
+  Data langsung masuk ke database, termasuk username & password
   ============================================================ -->
 <script type="module">
-  // ─────────────────────────────────────────────────────────────
-  //  ⚠️  LANGKAH 4: TEMPEL KONFIGURASI FIREBASE ANDA DI SINI
-  //  Ganti semua nilai "GANTI_DENGAN_..." dengan nilai asli
-  //  yang Anda salin dari Firebase Console.
-  // ─────────────────────────────────────────────────────────────
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+  // ⚠️ GANTI SEMUA NILAI DI BAWAH INI DENGAN KONFIGURASI FIREBASE ANDA
   const firebaseConfig = {
-    apiKey: "AIzaSyDYWqrajnR-UFPC_HP-zypEkC1VGrb3_UQ",
-    authDomain: "registeraccountbts.firebaseapp.com",
-    projectId: "registeraccountbts",
-    storageBucket: "registeraccountbts.firebasestorage.app",
-    messagingSenderId: "965300408559",
-    appId: "1:965300408559:web:47b8f40f35ac8d5acccb1a",
-    measurementId: "G-7XQHK98KWC"
+    apiKey:            "GANTI_DENGAN_apiKey",
+    authDomain:        "GANTI_DENGAN_authDomain",
+    projectId:         "GANTI_DENGAN_projectId",
+    storageBucket:     "GANTI_DENGAN_storageBucket",
+    messagingSenderId: "GANTI_DENGAN_messagingSenderId",
+    appId:             "GANTI_DENGAN_appId"
   };
-  
-  // Inisialisasi Firebase
-  const app  = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
 
-  // ─────────────────────────────────────────────────────────────
-  //  Fungsi utama: dipanggil saat tombol "Daftar" diklik
-  // ─────────────────────────────────────────────────────────────
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
   window.submitForm = async function () {
     const btn = document.getElementById('submitBtn');
 
-    // Ambil nilai form
-    const nama      = document.getElementById('nama').value.trim();
-    const email     = document.getElementById('email').value.trim();
-    const hp        = document.getElementById('hp').value.trim();
-    const perusahaan= document.getElementById('perusahaan').value;
-    const domisili  = document.getElementById('domisili').value.trim();
-    const password  = document.getElementById('pw').value;
+    const nama       = document.getElementById('nama').value.trim();
+    const email      = document.getElementById('email').value.trim();
+    const hp         = document.getElementById('hp').value.trim();
+    const perusahaan = document.getElementById('perusahaan').value;
+    const domisili   = document.getElementById('domisili').value.trim();
+    const password   = document.getElementById('pw').value;
 
-    // Tampilkan loading di tombol
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Mendaftarkan...';
 
     try {
-      // LANGKAH A: Buat akun di Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = userCredential.user.uid;
-
-      // LANGKAH B: Simpan data profil ke Firestore (koleksi "vendors")
+      // Simpan semua data langsung ke Firestore koleksi "vendors"
+      // username = email, password tersimpan apa adanya (plaintext)
       await addDoc(collection(db, "vendors"), {
-        uid:        uid,
         nama:       nama,
-        email:      email,
+        username:   email,          // email dipakai sebagai username
+        password:   password,       // password tersimpan langsung, terlihat di database
         hp:         hp,
         perusahaan: perusahaan,
         domisili:   domisili,
-        createdAt:  serverTimestamp()   // waktu pendaftaran otomatis
+        createdAt:  serverTimestamp()
       });
 
-      // Sukses!
       showToast('✅ Akun vendor berhasil dibuat!', false);
-      // Reset form setelah 2 detik
       setTimeout(() => {
         document.querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
         document.getElementById('perusahaan').value = '';
@@ -537,20 +520,13 @@
       }, 2000);
 
     } catch (err) {
-      // Tangani error dari Firebase
-      let pesan = 'Terjadi kesalahan. Coba lagi.';
-      if (err.code === 'auth/email-already-in-use') pesan = '❌ Email ini sudah terdaftar.';
-      if (err.code === 'auth/weak-password')        pesan = '❌ Password terlalu lemah (min. 6 karakter).';
-      if (err.code === 'auth/invalid-email')        pesan = '❌ Format email tidak valid.';
-      showToast(pesan, true);
+      console.error(err);
+      showToast('❌ Gagal menyimpan data. Cek koneksi / konfigurasi Firebase.', true);
       btn.disabled = false;
       btn.innerHTML = 'Daftar Sekarang';
     }
   };
 
-  // ─────────────────────────────────────────────────────────────
-  //  Helper: tampilkan notifikasi toast
-  // ─────────────────────────────────────────────────────────────
   function showToast(msg, isError) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
@@ -635,5 +611,3 @@
 
 </body>
 </html>
-
-
