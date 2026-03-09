@@ -20,7 +20,6 @@
     gap: 1.2rem;
   }
 
-  /* ── LOGO BAR ── */
   .logo-bar {
     display: flex;
     align-items: center;
@@ -38,7 +37,6 @@
   }
 
   .logo-icon svg { width: 26px; height: 26px; fill: white; }
-
   .logo-texts { display: flex; flex-direction: column; gap: 1px; }
 
   .logo-main {
@@ -66,7 +64,6 @@
     to   { opacity:1; transform:translateY(0); }
   }
 
-  /* ── CARD ── */
   .card {
     display: grid;
     grid-template-columns: 1fr 0.8fr;
@@ -84,7 +81,6 @@
     to   { opacity:1; transform:translateY(0) scale(1); }
   }
 
-  /* ── LEFT: FORM ── */
   .form-side {
     padding: 2.8rem 2.6rem;
     display: flex;
@@ -93,9 +89,7 @@
     justify-content: center;
   }
 
-  .form-heading {
-    margin-bottom: 0.3rem;
-  }
+  .form-heading { margin-bottom: 0.3rem; }
 
   .form-heading h2 {
     font-family: 'Nunito', sans-serif;
@@ -113,7 +107,6 @@
     margin-top: 4px;
   }
 
-  /* Fields */
   .field { display: flex; flex-direction: column; gap: 5px; }
 
   .field label {
@@ -166,7 +159,6 @@
   }
 
   .input-wrap select.ok { border-color: #22c55e; background-color: #f0fdf4; }
-
   .input-wrap select option { color: #0f1f3d; background: white; }
 
   .input-wrap input:focus {
@@ -192,7 +184,6 @@
     gap: 0.75rem;
   }
 
-  /* Submit */
   .btn-submit {
     background: linear-gradient(135deg, #2a7de8, #1452c8);
     color: white;
@@ -224,7 +215,6 @@
     box-shadow: none;
   }
 
-  /* ── RIGHT: BLUE PANEL ── */
   .blue-side {
     background: linear-gradient(160deg, #3b87ea 0%, #1d65d4 55%, #1450b5 100%);
     margin: 12px;
@@ -240,7 +230,6 @@
     overflow: hidden;
   }
 
-  /* Decorative circles */
   .blue-side::before {
     content: '';
     position: absolute;
@@ -298,67 +287,18 @@
     margin-top: 2px;
   }
 
-  .blue-truck {
-    font-size: 3.2rem;
-    animation: float 3.5s ease-in-out infinite;
-    position: relative; z-index: 1;
-    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-9px); }
-  }
-
-  .blue-title {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 2rem;
-    color: white;
-    line-height: 1.15;
-    position: relative; z-index: 1;
-  }
-
   .blue-desc {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.72);
-    line-height: 1.65;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
     position: relative; z-index: 1;
   }
-
-  .divider-dots {
-    display: flex; gap: 6px; align-items: center;
-    position: relative; z-index: 1;
-  }
-
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); }
-  .dot.active { background: white; width: 18px; border-radius: 3px; }
-
-  .btn-admin {
-    background: transparent;
-    border: 1.5px solid rgba(255,255,255,0.55);
-    color: white;
-    padding: 9px 20px;
-    border-radius: 50px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 0.7rem;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s;
-    text-decoration: none;
-    display: inline-block;
-    position: relative; z-index: 1;
-  }
-
-  .btn-admin:hover { background: rgba(255,255,255,0.13); }
 
   /* Toast */
   .toast {
     display: none;
     position: fixed;
-    top: 1.5rem; left: 50%;
+    top: 20px; left: 50%;
     transform: translateX(-50%);
     background: #16a34a;
     color: white;
@@ -372,78 +312,42 @@
     animation: toastIn 0.3s ease;
   }
 
+  .toast.error-toast {
+    background: #dc2626;
+    box-shadow: 0 8px 28px rgba(220,38,38,0.3);
+  }
+
   @keyframes toastIn {
     from { opacity:0; transform: translateX(-50%) translateY(-10px); }
     to   { opacity:1; transform: translateX(-50%) translateY(0); }
   }
 
-  /* ── RESPONSIVE ── */
+  /* Loading spinner on button */
+  .btn-submit .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   @media (max-width: 680px) {
     body { padding: 1rem; gap: 1rem; background: #1a2a4a; }
-
     .logo-bar { align-self: flex-start; }
-
-    .card {
-      grid-template-columns: 1fr;
-      max-width: 100%;
-    }
-
+    .card { grid-template-columns: 1fr; max-width: 100%; }
     .blue-side {
-      order: -1;
-      margin: 0;
-      border-radius: 0;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      padding: 1.5rem;
-      flex-direction: row;
-      text-align: left;
-      gap: 1rem;
+      order: -1; margin: 0; border-radius: 0;
+      border-top-left-radius: 20px; border-top-right-radius: 20px;
+      padding: 1.5rem; flex-direction: row; text-align: left; gap: 1rem;
     }
-
-    .panel-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    position: relative; z-index: 1;
-  }
-
-  .panel-icon {
-    width: 64px; height: 64px;
-    background: linear-gradient(145deg, #60a5fa, #3b82f6);
-    border-radius: 16px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.35);
-  }
-
-  .panel-icon svg { width: 36px; height: 36px; fill: white; }
-
-  .panel-logo-main {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 1.6rem;
-    color: white;
-    letter-spacing: 0.5px;
-    line-height: 1;
-  }
-
-  .panel-logo-main .sep { color: rgba(255,255,255,0.5); margin: 0 5px; }
-  .panel-logo-main .brand { color: #fde68a; }
-
-  .panel-logo-sub {
-    font-size: 0.65rem;
-    font-weight: 500;
-    color: rgba(255,255,255,0.55);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-
-  .blue-truck { font-size: 2.2rem; }
-    .blue-title { font-size: 1.3rem; }
-    .blue-desc, .btn-admin, .divider-dots { display: none; }
+    .panel-logo { flex-direction: row; align-items: center; }
+    .blue-desc { display: none; }
     .blue-side::before, .blue-side::after { display: none; }
-
     .form-side { padding: 1.8rem 1.5rem; }
     .row2 { grid-template-columns: 1fr 1fr; }
   }
@@ -456,9 +360,7 @@
 </head>
 <body>
 
-<div class="toast" id="toast">✅ Akun vendor berhasil dibuat!</div>
-
-
+<div class="toast" id="toast"></div>
 
 <!-- CARD -->
 <div class="card">
@@ -557,12 +459,111 @@
       </div>
     </div>
     <p class="blue-desc">Masukkan detail Anda<br>untuk mengakses portal</p>
-
   </div>
 
 </div>
 
+<!-- ============================================================
+  FIREBASE SDK — Versi 9 (modular, pakai CDN compat build)
+  ============================================================ -->
+<script type="module">
+  // ─────────────────────────────────────────────────────────────
+  //  ⚠️  LANGKAH 4: TEMPEL KONFIGURASI FIREBASE ANDA DI SINI
+  //  Ganti semua nilai "GANTI_DENGAN_..." dengan nilai asli
+  //  yang Anda salin dari Firebase Console.
+  // ─────────────────────────────────────────────────────────────
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDRBZshQn3u1mluNnpSbwnxihTd6szGKnc",
+    authDomain: "registeraccountemkl.firebaseapp.com",
+    projectId: "registeraccountemkl",
+    storageBucket: "registeraccountemkl.firebasestorage.app",
+    messagingSenderId: "426053766727",
+    appId: "1:426053766727:web:068bdf83cd3930219eab62",
+    measurementId: "G-8XJ12KG9YM"
+  };
+  
+  // Inisialisasi Firebase
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // ─────────────────────────────────────────────────────────────
+  //  Fungsi utama: dipanggil saat tombol "Daftar" diklik
+  // ─────────────────────────────────────────────────────────────
+  window.submitForm = async function () {
+    const btn = document.getElementById('submitBtn');
+
+    // Ambil nilai form
+    const nama      = document.getElementById('nama').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const hp        = document.getElementById('hp').value.trim();
+    const perusahaan= document.getElementById('perusahaan').value;
+    const domisili  = document.getElementById('domisili').value.trim();
+    const password  = document.getElementById('pw').value;
+
+    // Tampilkan loading di tombol
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Mendaftarkan...';
+
+    try {
+      // LANGKAH A: Buat akun di Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+
+      // LANGKAH B: Simpan data profil ke Firestore (koleksi "vendors")
+      await addDoc(collection(db, "vendors"), {
+        uid:        uid,
+        nama:       nama,
+        email:      email,
+        hp:         hp,
+        perusahaan: perusahaan,
+        domisili:   domisili,
+        createdAt:  serverTimestamp()   // waktu pendaftaran otomatis
+      });
+
+      // Sukses!
+      showToast('✅ Akun vendor berhasil dibuat!', false);
+      // Reset form setelah 2 detik
+      setTimeout(() => {
+        document.querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+        document.getElementById('perusahaan').value = '';
+        document.querySelectorAll('.check-icon').forEach(ic => ic.style.display = 'none');
+        btn.innerHTML = 'Daftar Sekarang';
+        updateBtn();
+      }, 2000);
+
+    } catch (err) {
+      // Tangani error dari Firebase
+      let pesan = 'Terjadi kesalahan. Coba lagi.';
+      if (err.code === 'auth/email-already-in-use') pesan = '❌ Email ini sudah terdaftar.';
+      if (err.code === 'auth/weak-password')        pesan = '❌ Password terlalu lemah (min. 6 karakter).';
+      if (err.code === 'auth/invalid-email')        pesan = '❌ Format email tidak valid.';
+      showToast(pesan, true);
+      btn.disabled = false;
+      btn.innerHTML = 'Daftar Sekarang';
+    }
+  };
+
+  // ─────────────────────────────────────────────────────────────
+  //  Helper: tampilkan notifikasi toast
+  // ─────────────────────────────────────────────────────────────
+  function showToast(msg, isError) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast' + (isError ? ' error-toast' : '');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3500);
+  }
+</script>
+
 <script>
+  // ─────────────────────────────────────────────────────────────
+  //  Validasi form (tidak berubah dari versi asli)
+  // ─────────────────────────────────────────────────────────────
   const textFields = ['nama','email','hp','perusahaan','domisili'];
 
   function setFieldState(id, ok) {
@@ -584,12 +585,10 @@
 
   function validate() {
     textFields.forEach(id => {
-      const el2 = document.getElementById(id); const val = el2.tagName === 'SELECT' ? el2.value : el2.value.trim();
-      if (id === 'email') {
-        setFieldState(id, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
-      } else {
-        setFieldState(id, val.length > 0);
-      }
+      const el  = document.getElementById(id);
+      const val = el.tagName === 'SELECT' ? el.value : el.value.trim();
+      if (id === 'email') setFieldState(id, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
+      else                setFieldState(id, val.length > 0);
     });
     updateBtn();
   }
@@ -599,27 +598,22 @@
     const pw2  = document.getElementById('pw2').value;
     const icon = document.getElementById('ic-pw');
     const inp2 = document.getElementById('pw2');
-
     if (pw2.length === 0) {
-      inp2.className = '';
-      icon.style.display = 'none';
+      inp2.className = ''; icon.style.display = 'none';
     } else if (pw === pw2 && pw.length >= 8) {
       inp2.className = 'ok';
-      icon.style.display = 'block';
-      icon.textContent = '✓';
-      icon.style.color = '#22c55e';
+      icon.style.display = 'block'; icon.textContent = '✓'; icon.style.color = '#22c55e';
     } else {
       inp2.className = 'error';
-      icon.style.display = 'block';
-      icon.textContent = '✗';
-      icon.style.color = '#ef4444';
+      icon.style.display = 'block'; icon.textContent = '✗'; icon.style.color = '#ef4444';
     }
     updateBtn();
   }
 
   function allTextOk() {
     return textFields.every(id => {
-      const el2 = document.getElementById(id); const val = el2.tagName === 'SELECT' ? el2.value : el2.value.trim();
+      const el  = document.getElementById(id);
+      const val = el.tagName === 'SELECT' ? el.value : el.value.trim();
       if (id === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
       return val.length > 0;
     });
@@ -632,13 +626,10 @@
   }
 
   function updateBtn() {
-    document.getElementById('submitBtn').disabled = !(allTextOk() && pwOk());
-  }
-
-  function submitForm() {
-    const toast = document.getElementById('toast');
-    toast.style.display = 'block';
-    setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    const btn = document.getElementById('submitBtn');
+    if (!btn.querySelector('.spinner')) {         // jangan override saat loading
+      btn.disabled = !(allTextOk() && pwOk());
+    }
   }
 </script>
 
